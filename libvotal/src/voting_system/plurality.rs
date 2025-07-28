@@ -1,19 +1,22 @@
 use crate::voting_system::definition::*;
 
-pub const NAME: &str = "Plurality";
+pub const NAME: &str = "plurality";
 
 /// First-past-the-post voting
-pub fn plurality(choices: Vec<String>) -> VotingSystem {
+pub fn plurality(choices: impl Iterator<Item = String>) -> VotingSystem {
     VotingSystem::new(
         NAME,
         BallotForm::Uninominal,
         choices,
         Box::new(|choices: &Ballots| {
-            choices
-                .iter()
-                .max_by(|a, b| a.1.cmp(&b.1))
-                .map(|(k, _v)| k)
-                .cloned()
+            match choices {
+                Ballots::Uninominal(c) => c
+                    .iter()
+                    .max_by(|a, b| a.1.cmp(&b.1))
+                    .map(|(k, _v)| k)
+                    .cloned(),
+                // _ => unimplemented!()
+            }
         }),
     )
 }
@@ -66,7 +69,8 @@ mod tests {
 
     #[test]
     fn plurality_voting() {
-        let mut p = plurality(vec![String::from("A"), String::from("B"), String::from("C")]);
+        let mut p =
+            plurality(vec![String::from("A"), String::from("B"), String::from("C")].into_iter());
         for v in vec!["A", "B", "A", "C"] {
             if let Err(e) = p.vote(String::from(v)) {
                 panic!("{e}")
