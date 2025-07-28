@@ -9,7 +9,7 @@ use votal_cli::read_vote;
 #[derive(Parser)]
 #[command(version, about, long_about = None)]
 struct Cli {
-    /// The name of the used voting system
+    /// The name of the used voting system among plurality
     voting_system: String,
 
     /// List of choices
@@ -21,8 +21,6 @@ fn main() {
     //     eprintln!("Problem parsing arguments: {err}");
     //     process::exit(1);
     // });
-
-    println!("{:?}", std::env::var_os("OUT_DIR").unwrap());
 
     let cli = Cli::parse();
 
