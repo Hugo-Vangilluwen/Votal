@@ -31,26 +31,33 @@ use libvotal::voting_system::*;
 //     }
 // }
 
-pub fn read_vote(vote: &mut VotingSystem) {
-    let mut ballot = String::new();
-
-    {
-        let mut choices = vote.get_choices();
-        print!("Different choices are {}", choices.next().unwrap());
-        for c in choices {
-            print!(", {}", c);
-        }
-        println!();
-        println!("Enter your vote: ");
+/// Announce in the console the different choices
+fn annouce_choices(vote: &VotingSystem) {
+    let mut choices = vote.get_choices();
+    print!("Different choices are {}", choices.next().unwrap());
+    for c in choices {
+        print!(", {}", c);
     }
+    println!();
+    println!("Enter your vote: ");
+}
 
+/// Read a vote
+pub fn read_vote(vote: &mut VotingSystem) {
+    annouce_choices(&vote);
 
-    io::stdin()
-        .read_line(&mut ballot)
-        .expect("Failed to read line");
+    match vote.get_ballot_form() {
+        BallotForm::Uninominal => {
+            let mut ballot = String::new();
 
-    match vote.vote(String::from(ballot.trim())) {
-        Ok(_) => println!("Vote cast!"),
-        Err(e) => eprintln!("{}", e),
+            io::stdin()
+                .read_line(&mut ballot)
+                .expect("Failed to read line");
+
+            match vote.vote(ballot.trim()) {
+                Ok(_) => println!("Vote cast!"),
+                Err(e) => eprintln!("{}", e),
+            }
+        }
     }
 }
