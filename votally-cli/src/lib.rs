@@ -1,6 +1,6 @@
 use std::io;
 
-use libvotal::voting_system::*;
+use libvotally::voting_system::*;
 
 // pub struct ConfigServer {
 //     pub name: String,
