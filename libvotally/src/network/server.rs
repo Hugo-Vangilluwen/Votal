@@ -7,7 +7,7 @@ use std::{
 
 use crate::voting_system::VotingSystem;
 
-pub struct VotalServer {
+pub struct VotallyServer {
     address: String,
     vote: VotingSystem,
     listener: Option<TcpListener>,

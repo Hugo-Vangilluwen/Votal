@@ -3,8 +3,8 @@ use std::process;
 
 use clap::Parser;
 
-use libvotal::voting_system::find_voting_system;
-use votal_cli::read_vote;
+use libvotally::voting_system::find_voting_system;
+use votally_cli::read_vote;
 
 #[derive(Parser)]
 #[command(version, about, long_about = None)]

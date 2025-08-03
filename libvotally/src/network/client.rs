@@ -6,7 +6,7 @@ pub struct VotalClient {
     stream: TcpStream,
 }
 
-impl VotalClient {
+impl VotallyClient {
     /// Create a new VotalClient
     pub fn new(address: &str) -> VotalClient {
         let stream = TcpStream::connect(address.to_owned() + ":" + VotalServer::PORT).unwrap();
